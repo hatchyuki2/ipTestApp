@@ -1,0 +1,118 @@
+﻿<Controls:MetroWindow x:Class="UdpTestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vm="clr-namespace:UdpTestApp.MainWindowViewModel"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        xmlns:local="clr-namespace:UdpTestApp"
+        mc:Ignorable="d"
+        Title="UDP TCP /IP Network Check APP" Height="590.323" Width="700">
+
+    <Controls:MetroWindow.DataContext>
+        <vm:ViewModel/>
+    </Controls:MetroWindow.DataContext>
+
+    <Grid Margin="8" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0" Header="PROTOCOL" Margin="5" Width="auto" HorizontalAlignment="Left">
+                <ListBox Style="{StaticResource MaterialDesignToolToggleListBox}">
+                    <ListBoxItem>UDP</ListBoxItem>
+                    <ListBoxItem>TCP</ListBoxItem>
+                </ListBox>
+            </GroupBox>
+
+            <StackPanel Grid.Column="1"  Grid.ColumnSpan="2" Orientation="Horizontal"
+                        HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Controls:ToggleSwitch
+                              OnLabel="送信中"
+                              OffLabel="送信停止中"
+                              IsChecked="{Binding _UdpModel.Send, Mode=TwoWay}"/>
+                <Controls:ToggleSwitch 
+                              OnLabel="受信中"
+                              OffLabel="受信停止中"
+                              IsChecked="False"/>
+            </StackPanel>
+        </Grid>
+
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0" Header="SEND" Margin="5" Width="auto" HorizontalAlignment="Left">
+
+                <StackPanel Grid.Row="2"  Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Height="auto" Margin="10, 0">
+                    <TextBlock Text="IP ADDRESS" Margin="10" VerticalAlignment="Center"/>
+                    <TextBox Width = "100" TextAlignment="Right" TextElement.FontSize="15" VerticalAlignment="Center" Text="{Binding _UdpModel.MyIP}"/>
+
+                    <TextBlock Text="PORT" Margin="10" VerticalAlignment="Center"/>
+                    <TextBox Width="50" TextAlignment="Right" TextElement.FontSize="15" VerticalAlignment="Center" Text="{Binding _UdpModel.SendPort}"/>
+
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1" Header="RECIVE" Margin="5" Width="auto" HorizontalAlignment="Left">
+                <StackPanel Grid.Column="0"  Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Height="auto" Margin="10, 0">
+                    <TextBlock Text="IP ADDRESS" Margin="10" VerticalAlignment="Center"/>
+                    <TextBox Width = "100" TextAlignment="Right" TextElement.FontSize="15"
+                     Controls:TextBoxHelper.ClearTextButton="True" TextWrapping="Wrap" Text="192.168.1.1"/>
+
+                    <TextBlock Text="PORT" Margin="10" VerticalAlignment="Center"/>
+                    <TextBox Width="50" Height="auto" TextAlignment="Right" TextElement.FontSize="15" Text="{Binding _UdpModel.RecvPort}"/>
+                </StackPanel>
+            </GroupBox>
+          </Grid>
+        
+        <DataGrid Grid.Row="4" ItemsSource="{Binding _MainWindowModel.ViewData}" Margin="5,10" AutoGenerateColumns="False" CanUserAddRows="False"
+              materialDesign:DataGridAssist.CellPadding="10,5,5,5"
+              materialDesign:DataGridAssist.ColumnHeaderPadding="5">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="有効" Binding="{Binding _IsTrue}"
+                                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>
+
+                <DataGridTextColumn  Header="番号" Binding="{Binding _Number}" IsReadOnly="True"
+                                                       EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+                
+                <!-- 通常のTextColumnを使用する場合 -->
+                <DataGridTextColumn Header="名前" Binding="{Binding _Name}" IsReadOnly="True"
+                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+
+                <DataGridTextColumn Header="型" Binding="{Binding _Type}" IsReadOnly="True" 
+                                                       EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+
+                <!-- MaterialDesignのTextColumnを使用して入力文字数を表示する -->
+                <!-- MaterialDesignのTextColumnを使用して入力時にPopUpを表示する -->
+                <materialDesign:MaterialDataGridTextColumn Header="値" Binding="{Binding _Value}"
+                                                       MaxLength="50"
+                                                       EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+
+                <materialDesign:MaterialDataGridComboBoxColumn Header="オフセット"
+                                                           ItemsSourceBinding="{Binding Vendor}"
+                                                           SelectedValueBinding="{Binding _Vender}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Controls:MetroWindow>
