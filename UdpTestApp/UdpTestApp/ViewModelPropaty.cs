@@ -32,10 +32,10 @@ namespace UdpTestApp
                 {
                     _IsActive = true,
                     _Number   = i + 1,
+                    _Offset   = i * 4,
                     _Name     = "データ" + i,
                     _Type     = "int",
                     _Value    = (3 + i).ToString(),
-                    // _Vender   = Vendor.取引先A,
                 });
             }
         }
@@ -45,10 +45,10 @@ namespace UdpTestApp
     {
         public bool _IsActive { get; set; }
         public int _Number { get; set; }
+        public int _Offset { get; set; }
         public string _Name { get; set; }
         public string _Type { get; set; }
         public string _Value { get; set; }
-        // public Vendor _Vender { get; set; }
     }
 
     public enum Vendor

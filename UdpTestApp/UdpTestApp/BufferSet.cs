@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,7 @@ namespace UdpTestApp
             get { return byteOffset; }
         }
 
-        private byte[] buffer = new byte[1500];
-        public byte[] ST_Data
-        {
-            get { return buffer; }
-        }
+        public byte[] ST_Data { get; } = new byte[1500];
 
         enum NUMERIC_TYPE
         {
@@ -32,10 +29,8 @@ namespace UdpTestApp
         };
 
         public ObservableCollection<Data> ViewDataList { get; } = new ObservableCollection<Data>();
-            //= new ObservableCollection<Data>();
 
-
-        // Csvファイルから読んだICDを送信用データバッファとしてセットする
+        // Csvファイルから読んだICDを送信用データバッファ及び表示用のリストにセットする
         public void SetData(string filePath)
         {
 
@@ -55,9 +50,11 @@ namespace UdpTestApp
                     int nArraySize = 1;
                     int.TryParse(Data[6], out nArraySize);
 
-                    SetDataForEachType(Data[3], Data[4], nArraySize);
 
                     ViewDataList.Add(SetViewData(Data, ++counter));
+
+                    SetDataForEachType(Data[3], Data[4], nArraySize);
+
                 }
                 catch (System.Exception e)
                 {
@@ -74,6 +71,7 @@ namespace UdpTestApp
 
             viewData._IsActive = true;
             viewData._Number = counter++;
+            viewData._Offset = ByteOffset;
             viewData._Name  = Data[2];
             viewData._Type  = Data[3];
             viewData._Value = Data[4];
@@ -85,10 +83,10 @@ namespace UdpTestApp
         public void AddNumData(dynamic numData, int nStructSize)
         {
             byte[] tempBuff = BitConverter.GetBytes(numData);
-            tempBuff.CopyTo(buffer, byteOffset);
+            tempBuff.CopyTo(ST_Data, this.byteOffset);
 
-            var byteLength = tempBuff.Length;
-            byteOffset += byteLength;
+            var byteLength = tempBuff.Length * nStructSize;
+            this.byteOffset += byteLength;
         }
 
         // 文字列（char）のデータをバッファに追加する
@@ -96,9 +94,10 @@ namespace UdpTestApp
         public void AddCharData(string charData, int nStructSize)
         {
             var tempBuff = System.Text.Encoding.GetEncoding("shift-jis").GetBytes(charData);
-            tempBuff.CopyTo(buffer, byteOffset);
 
-            byteOffset += nStructSize;
+            tempBuff.CopyTo(this.ST_Data, this.byteOffset);
+
+            this.byteOffset += nStructSize;
         }
 
 
@@ -164,14 +163,17 @@ namespace UdpTestApp
             get { return StringDataList; }
         }
 
-        public void SetCsvStreamData(string fileName)
+        // shift-jisでファイルを開き，読み込み処理を呼び出す。
+        public void SetCsvStreamData(string filePath)
         {
             try
             {
-                using (System.IO.StreamReader streamReader = new System.IO.StreamReader(fileName, System.Text.Encoding.GetEncoding("shift-jis")))
+                using (FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (StreamReader streamReader = new System.IO.StreamReader(stream, System.Text.Encoding.GetEncoding("shift-jis")))
                 {
                     ReadStreamAsCsv(streamReader);
                 }
+
             }
             catch (System.Exception e)
             {
@@ -179,6 +181,8 @@ namespace UdpTestApp
             }
         }
 
+        // ストリームをcsvとして1行ずつ（カンマ区切り）string[]型のリストに追加する
+        // #が先頭にある行は何もしない
         public void ReadStreamAsCsv(System.IO.StreamReader streamReader)
         {
             while (!streamReader.EndOfStream)

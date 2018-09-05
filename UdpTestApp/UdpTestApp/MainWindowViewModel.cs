@@ -25,18 +25,31 @@ namespace UdpTestApp
                 SendCommand = CreateCommand(param => MySendCommand(param));
             }
 
-
             public ICommand UpdateCommand { get; private set; }
             public ICommand SendCommand { get; private set; }
 
+            private string _FilePath;
+            public string FilePath
+            {
+                get { return _FilePath; }
+                set
+                {
+                    if (_FilePath != value)
+                    {
+                        _FilePath = value;
+                        RaisePropertyChanged(nameof(FilePath));
+                    }
+                }
+            }
 
-            // リストの表示と送信バッファを更新する
+            // ファイルを読み込みリストの表示と送信バッファを更新する
             public void MyUpdateCommand()
             {
                 Data data = new Data();
 
                 var filePath = OpenFile();
 
+                FilePath = filePath;
 
                 _BufferSet.SetData(filePath);
 
@@ -44,7 +57,7 @@ namespace UdpTestApp
                 UpdateSendBuff(_BufferSet.ST_Data, _BufferSet.ByteOffset);
             }
 
- 
+
             private void UpdateListView(ObservableCollection<Data> ViewDataList)
             {
                 _DataListViewModel.ViewData = ViewDataList;
@@ -78,10 +91,13 @@ namespace UdpTestApp
             private string OpenFile()
             {
                 // ダイアログのインスタンスを生成
-                var dialog = new OpenFileDialog();
+                var dialog = new OpenFileDialog
+                {
+                    ReadOnlyChecked = true,
 
-                // ファイルの種類を設定
-                dialog.Filter = "テキストファイル (*.csv)|*.csv|全てのファイル (*.*)|*.*";
+                    // ファイルの種類を設定
+                    Filter = "テキストファイル (*.csv)|*.csv|全てのファイル (*.*)|*.*"
+                };
 
                 // ダイアログを表示する
                 if (dialog.ShowDialog() == true)
@@ -92,6 +108,6 @@ namespace UdpTestApp
 
                 return "File  not found.";
             }
-    }
+        }
     }
 }

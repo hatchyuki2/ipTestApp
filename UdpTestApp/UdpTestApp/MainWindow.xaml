@@ -40,17 +40,36 @@
                 </ListBox>
             </GroupBox>
 
-            <StackPanel Grid.Column="1"  Grid.ColumnSpan="2" Orientation="Horizontal"
+
+            <Grid Grid.Column="1" Grid.ColumnSpan="2" Margin="15, 0" VerticalAlignment="Bottom">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <CheckBox Grid.Row="0" Content="連続送信" Margin="0" IsChecked="True" Width="auto"
+                          HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <StackPanel Grid.Row="1"  Grid.ColumnSpan="2" Orientation="Horizontal"
                         HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Controls:ToggleSwitch
+
+                    <Controls:ToggleSwitch
                               OnLabel="送信中"
                               OffLabel="送信停止中"
                               IsChecked="{Binding _UdpViewModel.Send, Mode=TwoWay}"/>
-                <Controls:ToggleSwitch 
+                    <Controls:ToggleSwitch 
                               OnLabel="受信中"
                               OffLabel="受信停止中"
                               IsChecked="False"/>
-            </StackPanel>
+                </StackPanel>
+            </Grid>
+            
+
+
         </Grid>
 
 
@@ -90,7 +109,7 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Column="0" Margin="5" TextWrapping="Wrap"/>
+            <TextBox Grid.Column="0" Margin="5" TextWrapping="Wrap" Text="{Binding FilePath}"/>
             <Button Grid.Column="1" Content="ファイル選択" Margin="5"
                     Command="{Binding UpdateCommand}"/>
         </Grid>
@@ -108,6 +127,9 @@
                 <DataGridTextColumn Header="番号" Binding="{Binding _Number}" IsReadOnly="True"
                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
 
+                <DataGridTextColumn Header="オフセット" Binding="{Binding _Offset}" IsReadOnly="True"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+                
                 <!-- 通常のTextColumnを使用する場合 -->
                 <DataGridTextColumn Header="名前" Binding="{Binding _Name}" IsReadOnly="True"
                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
@@ -116,14 +138,16 @@
                                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
 
                 <!-- MaterialDesignのTextColumnを使用して入力文字数を表示する -->
-                <!-- MaterialDesignのTextColumnを使用して入力時にPopUpを表示する -->
-                <materialDesign:MaterialDataGridTextColumn Header="値" Binding="{Binding _Value}"
-                                    MaxLength="50"
-                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                <materialDesign:MaterialDataGridTextColumn Header="値" Binding="{Binding _Value}" MaxLength="50"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}">
 
-                <!--<materialDesign:MaterialDataGridComboBoxColumn Header="オフセット"
-                                                           ItemsSourceBinding="{Binding Vendor}"
-                                                           SelectedValueBinding="{Binding _Vender}"/>-->
+                    <materialDesign:MaterialDataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="LightCyan"/>
+                        </Style>
+                    </materialDesign:MaterialDataGridTextColumn.CellStyle>
+                </materialDesign:MaterialDataGridTextColumn>
+
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
