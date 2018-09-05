@@ -21,7 +21,7 @@
 
 ### 必要なもの
 - Visual Studio 2017 の Microsoft Visual C++ 再頒布可能パッケージ
-  -（https://visualstudio.microsoft.com/ja/downloads/?q=#other-ja）
+  - （https://visualstudio.microsoft.com/ja/downloads/?q=#other-ja）
 - .Net Framework 4.6.1以降
   
 ### 準備と操作
