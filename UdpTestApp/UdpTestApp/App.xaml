@@ -1,4 +1,12 @@
-﻿<Application x:Class="UdpTestApp.App"
+﻿ <!--
+    * Copyright MahApps/MahApps.Metro, MaterialDesignInXamlToolkit and other contributors
+    * Released under the MIT license
+    *
+    * MahApps.Metro: https://github.com/MahApps/MahApps.Metro/blob/master/LICENSE
+    * MaterialDesignInXamlToolkit : https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/blob/master/LICENSE
+  -->
+    
+<Application x:Class="UdpTestApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:UdpTestApp"
