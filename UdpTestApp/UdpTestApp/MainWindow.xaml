@@ -19,11 +19,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
@@ -46,7 +45,7 @@
                 <Controls:ToggleSwitch
                               OnLabel="送信中"
                               OffLabel="送信停止中"
-                              IsChecked="{Binding _UdpModel.Send, Mode=TwoWay}"/>
+                              IsChecked="{Binding _UdpViewModel.Send, Mode=TwoWay}"/>
                 <Controls:ToggleSwitch 
                               OnLabel="受信中"
                               OffLabel="受信停止中"
@@ -55,7 +54,7 @@
         </Grid>
 
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
@@ -65,10 +64,10 @@
 
                 <StackPanel Grid.Row="2"  Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Height="auto" Margin="10, 0">
                     <TextBlock Text="IP ADDRESS" Margin="10" VerticalAlignment="Center"/>
-                    <TextBox Width = "100" TextAlignment="Right" TextElement.FontSize="15" VerticalAlignment="Center" Text="{Binding _UdpModel.MyIP}"/>
+                    <TextBox Width = "100" TextAlignment="Right" TextElement.FontSize="15" VerticalAlignment="Center" Text="{Binding _UdpViewModel.MyIP}"/>
 
                     <TextBlock Text="PORT" Margin="10" VerticalAlignment="Center"/>
-                    <TextBox Width="50" TextAlignment="Right" TextElement.FontSize="15" VerticalAlignment="Center" Text="{Binding _UdpModel.SendPort}"/>
+                    <TextBox Width="50" TextAlignment="Right" TextElement.FontSize="15" VerticalAlignment="Center" Text="{Binding _UdpViewModel.SendPort}"/>
 
                 </StackPanel>
             </GroupBox>
@@ -83,35 +82,48 @@
                     <TextBox Width="50" Height="auto" TextAlignment="Right" TextElement.FontSize="15" Text="{Binding _UdpModel.RecvPort}"/>
                 </StackPanel>
             </GroupBox>
-          </Grid>
-        
-        <DataGrid Grid.Row="4" ItemsSource="{Binding _MainWindowModel.ViewData}" Margin="5,10" AutoGenerateColumns="False" CanUserAddRows="False"
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0" Margin="5" TextWrapping="Wrap"/>
+            <Button Grid.Column="1" Content="ファイル選択" Margin="5"
+                    Command="{Binding UpdateCommand}"/>
+        </Grid>
+
+
+        <DataGrid Grid.Row="3" ItemsSource="{Binding _DataListViewModel.ViewData, Mode=TwoWay}" Margin="5,10" AutoGenerateColumns="False" CanUserAddRows="False"
               materialDesign:DataGridAssist.CellPadding="10,5,5,5"
-              materialDesign:DataGridAssist.ColumnHeaderPadding="5">
+              materialDesign:DataGridAssist.ColumnHeaderPadding="5"
+              VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="有効" Binding="{Binding _IsTrue}"
+                <DataGridCheckBoxColumn Header="有効" Binding="{Binding _IsActive}"
                                     ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                                     EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"/>
 
-                <DataGridTextColumn  Header="番号" Binding="{Binding _Number}" IsReadOnly="True"
-                                                       EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
-                
+                <DataGridTextColumn Header="番号" Binding="{Binding _Number}" IsReadOnly="True"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+
                 <!-- 通常のTextColumnを使用する場合 -->
                 <DataGridTextColumn Header="名前" Binding="{Binding _Name}" IsReadOnly="True"
-                                EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
 
-                <DataGridTextColumn Header="型" Binding="{Binding _Type}" IsReadOnly="True" 
-                                                       EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+                <DataGridTextColumn Header="型"   Binding="{Binding _Type}" IsReadOnly="True" 
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
 
                 <!-- MaterialDesignのTextColumnを使用して入力文字数を表示する -->
                 <!-- MaterialDesignのTextColumnを使用して入力時にPopUpを表示する -->
                 <materialDesign:MaterialDataGridTextColumn Header="値" Binding="{Binding _Value}"
-                                                       MaxLength="50"
-                                                       EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" />
+                                    MaxLength="50"
+                                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
 
-                <materialDesign:MaterialDataGridComboBoxColumn Header="オフセット"
+                <!--<materialDesign:MaterialDataGridComboBoxColumn Header="オフセット"
                                                            ItemsSourceBinding="{Binding Vendor}"
-                                                           SelectedValueBinding="{Binding _Vender}"/>
+                                                           SelectedValueBinding="{Binding _Vender}"/>-->
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

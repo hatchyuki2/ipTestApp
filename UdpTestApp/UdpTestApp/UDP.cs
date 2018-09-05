@@ -12,11 +12,11 @@ namespace UdpTestApp
 {
     public class UDP
     {
-        private UdpClient udpForSend; // Client for sending 
+        private UdpClient udpForSend;              // Client for sending 
         private string remoteHost = " localhost "; // Destination IP address 
-        private int remotePort; // destination port 
-        private UdpClient udpForReceive; // Client for receiving 
-        public string rcvMsg = " ini "; // for storing received messages 
+        private int remotePort;                    // destination port 
+        private UdpClient udpForReceive;           // Client for receiving 
+        public string rcvMsg = " ini ";            // for storing received messages 
         private System.Threading.Thread rcvThread; // Receiving thread 
 
         private bool _IsStopSend;
@@ -101,6 +101,7 @@ namespace UdpTestApp
             }
         }
 
+
         public async void Start_receive() // start receiving thread 
         {
             try
@@ -109,6 +110,7 @@ namespace UdpTestApp
             }
             catch { }
         }
+
 
         public void Stop_receive() // stop receiving thread 
         {
@@ -130,7 +132,6 @@ namespace UdpTestApp
             }
             catch { }
         }
-
 
 
         public void End() // Closing the sending / receiving port and discontinue the receiving thread 
