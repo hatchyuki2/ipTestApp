@@ -2,10 +2,6 @@
 - 任意のパケットをUDP/IPまたはTCP/IPで送受信するWindowsアプリケーションです。
 - いろいろ問題あり。
 
-- 必要なもの
-  - Visual Studio 2017 の Microsoft Visual C++ 再頒布可能パッケージ（https://visualstudio.microsoft.com/ja/downloads/?q=#other-ja）
-  - .Net Framework 4.6.1以降
-
 ---
 
 ## 概要
@@ -22,6 +18,13 @@
 ---
 
 ## 使用方法
+
+### 必要なもの
+- Visual Studio 2017 の Microsoft Visual C++ 再頒布可能パッケージ
+  -（https://visualstudio.microsoft.com/ja/downloads/?q=#other-ja）
+- .Net Framework 4.6.1以降
+  
+### 準備と操作
 
 ファイル選択ボタンを押して，読み込むcsvファイルを選択します。
 - csvの形式は次のようにしなければなりません。
