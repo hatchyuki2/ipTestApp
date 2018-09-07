@@ -1,6 +1,6 @@
 # ipTestApp
-- 任意のパケットをUDP/IPまたはTCP/IPで送受信するWindowsアプリケーションです。
-- いろいろ問題あり。
+- 任意のパケットをUDP/IPまたはTCP/IPで送受信するWindowsデスクトップアプリケーションです。
+- よくわかってないのでいろいろ問題あり。
 
 ---
 
@@ -12,6 +12,8 @@
 ### 開発環境
 
 - Visual Studio2017
+
+- 使用ライブラリ
   - MaterialDesignInXamlToolkit 
   - MahApps.Metro
 
@@ -20,11 +22,9 @@
 ## 使用方法
 
 ### 必要なもの
-- Visual Studio 2017 の Microsoft Visual C++ 再頒布可能パッケージ
-  - （https://visualstudio.microsoft.com/ja/downloads/?q=#other-ja）
 - .Net Framework 4.6.1以降
   
-### 準備と操作
+### 操作手順
 
 ファイル選択ボタンを押して，読み込むcsvファイルを選択します。
 - csvの形式は次のようにしなければなりません。
